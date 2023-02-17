@@ -94,16 +94,16 @@ func TestSearch(t *testing.T) {
 		fidiboClient := &fidiboMock.FidiboSearcher{}
 
 		expectedResult := domain.SearchResult{}
-		expectedError := errors.New("internal server error")
+		errorMsg := "internal server error"
 
 		cache.On("Get", context.TODO(), query).Return(domain.SearchResult{}, redis.Nil)
-		fidiboClient.On("Search", context.TODO(), query).Return(domain.SearchResult{}, expectedError)
+		fidiboClient.On("Search", context.TODO(), query).Return(domain.SearchResult{}, errors.New(errorMsg))
 
 		svc := NewSearchService(cache, fidiboClient)
 		result, err := svc.Search(context.TODO(), query)
 
 		assert.Error(t, err)
-		assert.Equal(t, expectedError, err)
+		assert.ErrorContains(t, err, errorMsg)
 		assert.Equal(t, expectedResult, result)
 		cache.AssertExpectations(t)
 		fidiboClient.AssertExpectations(t)

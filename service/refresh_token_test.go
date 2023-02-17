@@ -4,7 +4,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kavehjamshidi/fidibo-challenge/domain"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -15,7 +14,7 @@ func TestRefreshToken(t *testing.T) {
 
 	svc := NewRefreshTokenService(expiry, secret, expiry, secret)
 
-	result, err := svc.RefreshToken(domain.RefreshTokenRequest{Username: username})
+	result, err := svc.RefreshToken(username)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, result.AccessToken)
 	assert.NotEmpty(t, result.RefreshToken)

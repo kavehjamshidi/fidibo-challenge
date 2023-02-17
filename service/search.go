@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/kavehjamshidi/fidibo-challenge/cache"
@@ -29,7 +30,7 @@ func (s *searchService) Search(ctx context.Context, query string) (domain.Search
 	fidiboRes, err := s.fidiboSearch.Search(ctx, query)
 	if err != nil {
 		log.Printf("Fidibo Search Error: %v\n", err)
-		return domain.SearchResult{}, err
+		return domain.SearchResult{}, fmt.Errorf("service unavailable: %v", err)
 	}
 
 	err = s.cache.Store(ctx, query, fidiboRes)

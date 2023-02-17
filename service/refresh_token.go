@@ -9,7 +9,7 @@ import (
 )
 
 type RefreshTokenService interface {
-	RefreshToken(request domain.RefreshTokenRequest) (domain.RefreshTokenResponse, error)
+	RefreshToken(username string) (domain.RefreshTokenResponse, error)
 }
 
 type refreshTokenService struct {
@@ -19,14 +19,14 @@ type refreshTokenService struct {
 	refreshTokenSecret string
 }
 
-func (l *refreshTokenService) RefreshToken(request domain.RefreshTokenRequest) (domain.RefreshTokenResponse, error) {
-	accessToken, err := token.GenerateJWT(request.Username, l.accessTokenSecret, l.accessTokenExpiry)
+func (l *refreshTokenService) RefreshToken(username string) (domain.RefreshTokenResponse, error) {
+	accessToken, err := token.GenerateJWT(username, l.accessTokenSecret, l.accessTokenExpiry)
 	if err != nil {
 		log.Printf("RefreshToken Service - could not generate access token: %v", err)
 		return domain.RefreshTokenResponse{}, err
 	}
 
-	refreshToken, err := token.GenerateJWT(request.Username, l.refreshTokenSecret, l.refreshTokenExpiry)
+	refreshToken, err := token.GenerateJWT(username, l.refreshTokenSecret, l.refreshTokenExpiry)
 	if err != nil {
 		log.Printf("RefreshToken Service - could not generate refresh token: %v", err)
 		return domain.RefreshTokenResponse{}, err
