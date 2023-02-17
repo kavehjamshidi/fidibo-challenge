@@ -14,7 +14,7 @@ const (
 	refreshTokenSecretEnvKey         = "REFRESH_SECRET"
 
 	defaultServerAddress              = ":8080"
-	defaultRedisAddress               = "redis://6379"
+	defaultRedisAddress               = "localhost:6379"
 	defaultAccessTokenExpirationTime  = "15m"
 	defaultRefreshTokenExpirationTime = "168h"
 	defaultAccessTokenSecret          = "access token secret"
