@@ -2,12 +2,11 @@ package fidibosearch
 
 import (
 	"context"
-	"fmt"
 	"net/http"
-	"reflect"
 	"testing"
 
 	"github.com/kavehjamshidi/fidibo-challenge/domain"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestFidiboSearch(t *testing.T) {
@@ -41,17 +40,9 @@ func TestFidiboSearch(t *testing.T) {
 
 		res, err := f.Search(context.TODO(), "test query")
 
-		if err != nil {
-			t.Error(err)
-		}
-
-		if len(res.Books) != 1 {
-			t.Errorf("expected to receive %d books but got %d books", 1, len(res.Books))
-		}
-
-		if !reflect.DeepEqual(res.Books[0], book) {
-			t.Errorf("expected to receive book %v but got %v", book, res.Books[0])
-		}
+		assert.NoError(t, err)
+		assert.Len(t, res.Books, 1)
+		assert.Equal(t, res.Books[0], book)
 	})
 
 	t.Run("fidibo server error", func(t *testing.T) {
@@ -64,19 +55,9 @@ func TestFidiboSearch(t *testing.T) {
 
 		res, err := f.Search(context.TODO(), "test query")
 
-		fmt.Println(res, err)
-
-		if err == nil {
-			t.Errorf("expected to receive an error but got no errors")
-		}
-
-		if err.Error() != "did not receive any response" {
-			t.Errorf("expected error message to be %v but got %v", "did not receive any response", err.Error())
-		}
-
-		if len(res.Books) != 0 {
-			t.Errorf("expected to receive %d books but got %d books", 0, len(res.Books))
-		}
+		assert.Error(t, err)
+		assert.ErrorContains(t, err, "did not receive any response")
+		assert.Len(t, res.Books, 0)
 	})
 
 	t.Run("unmarshall error", func(t *testing.T) {
@@ -89,14 +70,7 @@ func TestFidiboSearch(t *testing.T) {
 
 		res, err := f.Search(context.TODO(), "test query")
 
-		fmt.Println(res, err)
-
-		if err == nil {
-			t.Errorf("expected to receive an error but got no errors")
-		}
-
-		if len(res.Books) != 0 {
-			t.Errorf("expected to receive %d books but got %d books", 0, len(res.Books))
-		}
+		assert.Error(t, err)
+		assert.Len(t, res.Books, 0)
 	})
 }

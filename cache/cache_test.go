@@ -4,12 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"reflect"
 	"testing"
 
 	"github.com/go-redis/redismock/v9"
 	"github.com/kavehjamshidi/fidibo-challenge/domain"
 	"github.com/redis/go-redis/v9"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestStore(t *testing.T) {
@@ -37,20 +37,15 @@ func TestStore(t *testing.T) {
 			},
 		}
 		jsonData, err := json.Marshal(val)
-		if err != nil {
-			t.Fatal(err)
-		}
+		assert.NoError(t, err)
 
 		mock.ExpectSet(key, jsonData, ttl).SetVal(string(jsonData))
 
 		err = cache.Store(context.TODO(), key, val)
-		if err != nil {
-			t.Error(err)
-		}
+		assert.NoError(t, err)
 
-		if err := mock.ExpectationsWereMet(); err != nil {
-			t.Error(err)
-		}
+		err = mock.ExpectationsWereMet()
+		assert.NoError(t, err)
 	})
 
 	t.Run("failed store", func(t *testing.T) {
@@ -77,25 +72,18 @@ func TestStore(t *testing.T) {
 			},
 		}
 		jsonData, err := json.Marshal(val)
-		if err != nil {
-			t.Fatal(err)
-		}
+		assert.NoError(t, err)
+
 		errorMsg := "failed to set"
 
 		mock.ExpectSet(key, jsonData, ttl).SetErr(errors.New(errorMsg))
 
 		err = cache.Store(context.TODO(), key, val)
-		if err == nil {
-			t.Error("expected error but got no errors")
-		}
+		assert.Error(t, err)
+		assert.ErrorContains(t, err, errorMsg)
 
-		if err.Error() != errorMsg {
-			t.Errorf("expected error message to be %v but got %v", errorMsg, err.Error())
-		}
-
-		if err := mock.ExpectationsWereMet(); err != nil {
-			t.Error(err)
-		}
+		err = mock.ExpectationsWereMet()
+		assert.NoError(t, err)
 	})
 }
 
@@ -124,20 +112,13 @@ func TestGet(t *testing.T) {
 			},
 		}
 		jsonData, err := json.Marshal(val)
-		if err != nil {
-			t.Fatal(err)
-		}
+		assert.NoError(t, err)
 
 		mock.ExpectGet(key).SetVal(string(jsonData))
 
 		cachedVal, err := cache.Get(context.TODO(), key)
-		if err != nil {
-			t.Error(err)
-		}
-
-		if !reflect.DeepEqual(cachedVal, val) {
-			t.Errorf("expected cached value to be %v but got %v", val, cachedVal)
-		}
+		assert.NoError(t, err)
+		assert.Equal(t, val, cachedVal)
 	})
 
 	t.Run("key not found", func(t *testing.T) {
@@ -150,13 +131,8 @@ func TestGet(t *testing.T) {
 		mock.ExpectGet(key).RedisNil()
 
 		_, err := cache.Get(context.TODO(), key)
-		if err == nil {
-			t.Error("expected RedisNil error but got no errors")
-		}
-
-		if err != redis.Nil {
-			t.Errorf("expected error to be %v but got %v", redis.Nil, err)
-		}
+		assert.Error(t, err)
+		assert.Equal(t, redis.Nil, err)
 	})
 
 	t.Run("other redis error", func(t *testing.T) {
@@ -170,12 +146,7 @@ func TestGet(t *testing.T) {
 		mock.ExpectGet(key).SetErr(errors.New(errorMsg))
 
 		_, err := cache.Get(context.TODO(), key)
-		if err == nil {
-			t.Error("expected error but got no errors")
-		}
-
-		if err.Error() != errorMsg {
-			t.Errorf("expected error message to be %v but got %v", errorMsg, err.Error())
-		}
+		assert.Error(t, err)
+		assert.ErrorContains(t, err, errorMsg)
 	})
 }
