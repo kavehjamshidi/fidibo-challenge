@@ -34,7 +34,7 @@ func TestFidiboSearch(t *testing.T) {
 
 		route := "/search"
 
-		srv := httpMock(route, http.StatusOK, apiRes)
+		srv := newMockServer(route, http.StatusOK, apiRes)
 		defer srv.Close()
 
 		f := NewFidiboSearcher("q", srv.URL+route)
@@ -57,7 +57,7 @@ func TestFidiboSearch(t *testing.T) {
 	t.Run("fidibo server error", func(t *testing.T) {
 		route := "/search"
 
-		srv := httpMock(route, http.StatusInternalServerError, "")
+		srv := newMockServer(route, http.StatusInternalServerError, "")
 		defer srv.Close()
 
 		f := NewFidiboSearcher("q", srv.URL+route)
@@ -82,7 +82,7 @@ func TestFidiboSearch(t *testing.T) {
 	t.Run("unmarshall error", func(t *testing.T) {
 		route := "/search"
 
-		srv := httpMock(route, http.StatusOK, "response")
+		srv := newMockServer(route, http.StatusOK, "response")
 		defer srv.Close()
 
 		f := NewFidiboSearcher("q", srv.URL+route)

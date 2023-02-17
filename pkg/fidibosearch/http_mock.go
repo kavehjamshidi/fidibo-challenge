@@ -7,12 +7,12 @@ import (
 	"reflect"
 )
 
-type mock struct {
+type httpMock struct {
 	statusCode int
 	response   interface{}
 }
 
-func (m *mock) mockHandler(w http.ResponseWriter, r *http.Request) {
+func (m *httpMock) mockHandler(w http.ResponseWriter, r *http.Request) {
 	resp := []byte{}
 
 	rt := reflect.TypeOf(m.response)
@@ -28,8 +28,8 @@ func (m *mock) mockHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(resp)
 }
 
-func httpMock(pattern string, statusCode int, response interface{}) *httptest.Server {
-	c := &mock{statusCode, response}
+func newMockServer(pattern string, statusCode int, response interface{}) *httptest.Server {
+	c := &httpMock{statusCode, response}
 
 	handler := http.NewServeMux()
 	handler.HandleFunc(pattern, c.mockHandler)
