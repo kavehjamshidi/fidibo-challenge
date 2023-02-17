@@ -13,7 +13,7 @@ type httpMock struct {
 }
 
 func (m *httpMock) mockHandler(w http.ResponseWriter, r *http.Request) {
-	resp := []byte{}
+	var resp []byte
 
 	rt := reflect.TypeOf(m.response)
 	if rt.Kind() == reflect.String {
