@@ -14,8 +14,8 @@ const (
 )
 
 type Cacher interface {
-	Get(context.Context, string) (domain.SearchResult, error)
-	Store(context.Context, string, domain.SearchResult) error
+	Get(ctx context.Context, key string) (domain.SearchResult, error)
+	Store(ctx context.Context, key string, value domain.SearchResult) error
 }
 
 type redisCache struct {

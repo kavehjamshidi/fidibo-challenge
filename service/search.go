@@ -9,8 +9,8 @@ import (
 	"github.com/kavehjamshidi/fidibo-challenge/pkg/fidibosearch"
 )
 
-type Searcher interface {
-	Search(context.Context, string) (domain.SearchResult, error)
+type SearchService interface {
+	Search(ctx context.Context, query string) (domain.SearchResult, error)
 }
 
 type searchService struct {
@@ -40,7 +40,7 @@ func (s *searchService) Search(ctx context.Context, query string) (domain.Search
 	return fidiboRes, nil
 }
 
-func NewSearchService(cache cache.Cacher, fidiboSearch fidibosearch.FidiboSearcher) Searcher {
+func NewSearchService(cache cache.Cacher, fidiboSearch fidibosearch.FidiboSearcher) SearchService {
 	return &searchService{
 		cache:        cache,
 		fidiboSearch: fidiboSearch,
