@@ -21,8 +21,8 @@ const (
 func main() {
 	env := bootstrap.NewEnv()
 
-	redicClient := db.NewRedisClient(context.Background(), env.RedisAddress)
-	cache := cache.NewCacher(redicClient)
+	redisClient := db.NewRedisClient(context.Background(), env.RedisAddress)
+	cache := cache.NewCacher(redisClient)
 
 	fidiboClient := fidibosearch.NewFidiboSearcher(fidiboQueryKey, fidiboSearchURL)
 
@@ -39,6 +39,7 @@ func main() {
 	loginController := controllers.NewLoginController(loginSVC)
 	refreshTokenController := controllers.NewRefreshTokenController(refreshTokenSVC, env.RefreshTokenSecret)
 	searchController := controllers.NewSearchController(searchSVC)
+	notFoundController := controllers.NewNotFoundController()
 
 	r := gin.Default()
 
@@ -47,6 +48,8 @@ func main() {
 		LoginController:        loginController,
 		RefreshTokenController: refreshTokenController,
 	}, env.AccessTokenSecret)
+
+	r.NoRoute(notFoundController.NotFound)
 
 	r.Run(env.ServerAddress)
 }
