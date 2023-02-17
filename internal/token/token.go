@@ -42,3 +42,22 @@ func ValidateToken(signedToken string, secret string) error {
 
 	return nil
 }
+
+func ExtractUsername(signedToken string, secret string) (string, error) {
+	token, err := jwt.ParseWithClaims(
+		signedToken,
+		&JWTClaim{},
+		func(token *jwt.Token) (interface{}, error) {
+			return []byte(secret), nil
+		},
+	)
+	if err != nil {
+		return "", err
+	}
+	claims, ok := token.Claims.(*JWTClaim)
+	if !ok {
+		return "", errors.New("couldn't parse claims")
+	}
+
+	return claims.Username, nil
+}
