@@ -34,13 +34,15 @@ type fidiboSearcher struct {
 func (f *fidiboSearcher) Search(ctx context.Context, query string) (domain.SearchResult, error) {
 	payload := &bytes.Buffer{}
 	writer := multipart.NewWriter(payload)
-	err := writer.WriteField(f.queryKey, query)
-	if err != nil {
-		return domain.SearchResult{}, err
-	}
-	err = writer.Close()
-	if err != nil {
-		return domain.SearchResult{}, err
+	if query != "" {
+		err := writer.WriteField(f.queryKey, query)
+		if err != nil {
+			return domain.SearchResult{}, err
+		}
+		err = writer.Close()
+		if err != nil {
+			return domain.SearchResult{}, err
+		}
 	}
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, f.url, payload)
