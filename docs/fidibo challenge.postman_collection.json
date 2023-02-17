@@ -1,0 +1,240 @@
+{
+	"info": {
+		"_postman_id": "75c0d200-4d05-4329-976e-8ab7db176a90",
+		"name": "fidibo challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"test\",\n    \"password\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"test\",\n    \"password\": \"test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 17 Feb 2023 23:31:40 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "296"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJleHAiOjE2NzY2Nzc2MDB9.75AXG5z_YnEyGhUjFHaHkrIhrMTdAacfPrbBmN0pz1Q\",\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJleHAiOjE2NzcyODE1MDB9.GIJdHm0ANKiuz6J3QG0DuI5gLBgcLe-gkGiqx543VFY\"\n}"
+				}
+			]
+		},
+		{
+			"name": "refresh token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJleHAiOjE2NzcyNDU1MzV9.LxDtPZRIoMp1XyBjEPNvKyDkvL4LcirxbXTUdUBiYas\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/refresh-token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"refresh-token"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "refresh token",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJleHAiOjE2NzcyNDU1MzV9.LxDtPZRIoMp1XyBjEPNvKyDkvL4LcirxbXTUdUBiYas\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/refresh-token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"refresh-token"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 17 Feb 2023 22:41:17 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "296"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJleHAiOjE2NzY2NzQ1Nzd9.uZyO_R2jkV1zF1WMiwAd_WyVOOmBi4Qs-4cvUmiW9J8\",\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJleHAiOjE2NzcyNzg0Nzd9.sQ9DoahoH5slAuU7IXskEkFXVCXJi9gqWzPWS3VztJ8\"\n}"
+				}
+			]
+		},
+		{
+			"name": "search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJleHAiOjE2NzY2Nzc2MDB9.75AXG5z_YnEyGhUjFHaHkrIhrMTdAacfPrbBmN0pz1Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/search/book?keyword=کافکا",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"search",
+						"book"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "کافکا"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "search",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/search/book?keyword=کافکا",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"search",
+								"book"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "کافکا"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 17 Feb 2023 23:34:31 GMT"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"books\": [\n        {\n            \"image_name\": \"86980_92673.jpg\",\n            \"publishers\": {\n                \"title\": \"آوانامه\"\n            },\n            \"id\": \"86980\",\n            \"title\": \"کتاب صوتی مسخ\",\n            \"content\": \"کتاب صوتی مسخ فرانتس کافکا آرمان سلطان\\u200cزاده صادق هدایت آوانامه\",\n            \"slug\": \"86980-کتاب-صوتی-مسخ\",\n            \"authors\": [\n                {\n                    \"name\": \"فرانتس کافکا\"\n                },\n                {\n                    \"name\": \"صادق هدایت\"\n                }\n            ]\n        },\n        {\n            \"image_name\": \"1167_32120.jpg\",\n            \"publishers\": {\n                \"title\": \"نشر نیلوفر\"\n            },\n            \"id\": \"1167\",\n            \"title\": \"کتاب کافکا در کرانه، اثر هاروکی موراکامی\",\n            \"content\": \"کتاب کافکا در کرانه، اثر هاروکی موراکامی هاروکی موراکامی مهدی غبرائی\\u200c نشر نیلوفر\",\n            \"slug\": \"1167-کتاب-کافکا-در-کرانه،-اثر-هاروکی-موراکامی\",\n            \"authors\": [\n                {\n                    \"name\": \"هاروکی موراکامی\"\n                },\n                {\n                    \"name\": \"مهدی غبرائی\\u200c\"\n                }\n            ]\n        },\n        {\n            \"image_name\": \"64197_57497.jpg\",\n            \"publishers\": {\n                \"title\": \"مجید\"\n            },\n            \"id\": \"64197\",\n            \"title\": \"کتاب پیام کافکا و بوف کور\",\n            \"content\": \"کتاب پیام کافکا و بوف کور صادق هدایت مجید\",\n            \"slug\": \"64197-کتاب-پیام-کافکا-و-بوف-کور\",\n            \"authors\": [\n                {\n                    \"name\": \"صادق هدایت\"\n                }\n            ]\n        },\n        {\n            \"image_name\": \"6379_54009.jpg\",\n            \"publishers\": {\n                \"title\": \"نشر نی\"\n            },\n            \"id\": \"6379\",\n            \"title\": \"کتاب از کافکا تا کافکا\",\n            \"content\": \"کتاب از کافکا تا کافکا موريس بلانشو مهشيد نونهالی نشر نی\",\n            \"slug\": \"6379-کتاب-از-کافکا-تا-کافکا\",\n            \"authors\": [\n                {\n                    \"name\": \"موريس بلانشو\"\n                },\n                {\n                    \"name\": \"مهشيد نونهالی\"\n                }\n            ]\n        },\n        {\n            \"image_name\": \"121809_35206.jpg\",\n            \"publishers\": {\n                \"title\": \"آوانامه\"\n            },\n            \"id\": \"121809\",\n            \"title\": \"کتاب صوتی کافکا در ساحل\",\n            \"content\": \"کتاب صوتی کافکا در ساحل هاروکی موراکامی مهبد قناعت\\u200cپیشه گیتا گرکانی آوانامه\",\n            \"slug\": \"121809-کتاب-صوتی-کافکا-در-ساحل\",\n            \"authors\": [\n                {\n                    \"name\": \"هاروکی موراکامی\"\n                },\n                {\n                    \"name\": \"گیتا گرکانی\"\n                }\n            ]\n        },\n        {\n            \"image_name\": \"80805_27478.jpg\",\n            \"publishers\": {\n                \"title\": \"نشر ماهی\"\n            },\n            \"id\": \"80805\",\n            \"title\": \"کتاب کافکا\",\n            \"content\": \"کتاب کافکا ژیل دلوز فلیکس گوتاری شاپور بهیان نشر ماهی\",\n            \"slug\": \"80805-کتاب-کافکا\",\n            \"authors\": [\n                {\n                    \"name\": \"ژیل دلوز\"\n                },\n                {\n                    \"name\": \"فلیکس گوتاری\"\n                },\n                {\n                    \"name\": \"شاپور بهیان\"\n                }\n            ]\n        },\n        {\n            \"image_name\": \"88180_37999.jpg\",\n            \"publishers\": {\n                \"title\": \"نشر یوشیتا\"\n            },\n            \"id\": \"88180\",\n            \"title\": \"کتاب مسخ\",\n            \"content\": \"کتاب مسخ فرانتس کافکا صادق هدایت نشر یوشیتا\",\n            \"slug\": \"88180-کتاب-مسخ\",\n            \"authors\": [\n                {\n                    \"name\": \"فرانتس کافکا\"\n                },\n                {\n                    \"name\": \"صادق هدایت\"\n                }\n            ]\n        },\n        {\n            \"image_name\": \"115119_42809.jpg\",\n            \"publishers\": {\n                \"title\": \"نشر ثالث\"\n            },\n            \"id\": \"115119\",\n            \"title\": \"نامه\\u200cهای کافکا به پدر و مادر\",\n            \"content\": \"نامه\\u200cهای کافکا به پدر و مادر فرانتس کافکا ناصر غياثی نشر ثالث\",\n            \"slug\": \"115119-نامه\\u200cهای-کافکا-به-پدر-و-مادر\",\n            \"authors\": [\n                {\n                    \"name\": \"فرانتس کافکا\"\n                },\n                {\n                    \"name\": \"ناصر غياثی\"\n                }\n            ]\n        },\n        {\n            \"image_name\": \"65216_21443.jpg\",\n            \"publishers\": {\n                \"title\": \"نشر چشمه\"\n            },\n            \"id\": \"65216\",\n            \"title\": \"کتاب پلنگ\\u200cهای کافکا\",\n            \"content\": \"کتاب پلنگ\\u200cهای کافکا موآسیر اسکلیر ناصر غیاثی نشر چشمه\",\n            \"slug\": \"65216-کتاب-پلنگ\\u200cهای-کافکا\",\n            \"authors\": [\n                {\n                    \"name\": \"موآسیر اسکلیر\"\n                },\n                {\n                    \"name\": \"ناصر غیاثی\"\n                }\n            ]\n        },\n        {\n            \"image_name\": \"79165_25107.jpg\",\n            \"publishers\": {\n                \"title\": \"نشر جامه\\u200cدران\"\n            },\n            \"id\": \"79165\",\n            \"title\": \"کتاب مسخ\",\n            \"content\": \"کتاب مسخ فرانتس کافکا صادق هدایت نشر جامه\\u200cدران\",\n            \"slug\": \"79165-کتاب-مسخ\",\n            \"authors\": [\n                {\n                    \"name\": \"فرانتس کافکا\"\n                },\n                {\n                    \"name\": \"صادق هدایت\"\n                }\n            ]\n        }\n    ]\n}"
+				}
+			]
+		}
+	]
+}
