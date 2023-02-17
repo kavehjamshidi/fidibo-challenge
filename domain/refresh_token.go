@@ -1,7 +1,7 @@
 package domain
 
 type RefreshTokenRequest struct {
-	Username string
+	RefreshToken string `json:"refresh_token" binding:"required"`
 }
 
 type RefreshTokenResponse struct {
