@@ -23,36 +23,21 @@ type fidiboResposne struct {
 }
 
 type FidiboSearcher interface {
-	Search(context.Context, string) (domain.SearchResult, error)
+	Search(ctx context.Context, query string) (domain.SearchResult, error)
 }
 
-type fidiboSearcher struct {
+type fidiboClient struct {
 	queryKey string
 	url      string
 }
 
-func (f *fidiboSearcher) Search(ctx context.Context, query string) (domain.SearchResult, error) {
-	payload := &bytes.Buffer{}
-	writer := multipart.NewWriter(payload)
-	if query != "" {
-		err := writer.WriteField(f.queryKey, query)
-		if err != nil {
-			return domain.SearchResult{}, err
-		}
-		err = writer.Close()
-		if err != nil {
-			return domain.SearchResult{}, err
-		}
-	}
-
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, f.url, payload)
+func (f *fidiboClient) Search(ctx context.Context, query string) (domain.SearchResult, error) {
+	req, err := f.createHTTPRequest(ctx, query)
 	if err != nil {
 		return domain.SearchResult{}, err
 	}
-	req.Header.Set("Content-Type", writer.FormDataContentType())
 
-	client := http.Client{}
-	res, err := client.Do(req)
+	res, err := f.doHTTPRequest(req)
 	if err != nil {
 		return domain.SearchResult{}, err
 	}
@@ -62,31 +47,63 @@ func (f *fidiboSearcher) Search(ctx context.Context, query string) (domain.Searc
 		return domain.SearchResult{}, errors.New("did not receive any response")
 	}
 
-	body, err := io.ReadAll(res.Body)
+	return f.parseResponse(res.Body)
+}
+
+func (f *fidiboClient) convertFidiboResponseToDomainModel(r fidiboResposne) domain.SearchResult {
+	var result domain.SearchResult
+	for _, v := range r.Books.Hits.Hits {
+		result.Books = append(result.Books, v.Source)
+	}
+	return result
+}
+
+func (f *fidiboClient) createHTTPRequest(ctx context.Context, query string) (*http.Request, error) {
+	payload := &bytes.Buffer{}
+	writer := multipart.NewWriter(payload)
+	if query != "" {
+		err := writer.WriteField(f.queryKey, query)
+		if err != nil {
+			return nil, err
+		}
+		err = writer.Close()
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, f.url, payload)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+
+	return req, nil
+}
+
+func (f *fidiboClient) doHTTPRequest(req *http.Request) (*http.Response, error) {
+	client := http.Client{}
+	return client.Do(req)
+}
+
+func (f *fidiboClient) parseResponse(body io.Reader) (domain.SearchResult, error) {
+	res, err := io.ReadAll(body)
 	if err != nil {
 		return domain.SearchResult{}, err
 	}
 
 	fidiboResponse := fidiboResposne{}
-	err = json.Unmarshal(body, &fidiboResponse)
+	err = json.Unmarshal(res, &fidiboResponse)
 	if err != nil {
 		return domain.SearchResult{}, err
 	}
 
-	return f.convertFidiboResponseToDomainModel(fidiboResponse), err
+	return f.convertFidiboResponseToDomainModel(fidiboResponse), nil
 }
 
 func NewFidiboSearcher(queryKey, url string) FidiboSearcher {
-	return &fidiboSearcher{
+	return &fidiboClient{
 		queryKey: queryKey,
 		url:      url,
 	}
-}
-
-func (s *fidiboSearcher) convertFidiboResponseToDomainModel(f fidiboResposne) domain.SearchResult {
-	var result domain.SearchResult
-	for _, v := range f.Books.Hits.Hits {
-		result.Books = append(result.Books, v.Source)
-	}
-	return result
 }

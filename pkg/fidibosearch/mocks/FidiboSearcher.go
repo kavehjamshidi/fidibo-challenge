@@ -15,23 +15,23 @@ type FidiboSearcher struct {
 	mock.Mock
 }
 
-// Search provides a mock function with given fields: _a0, _a1
-func (_m *FidiboSearcher) Search(_a0 context.Context, _a1 string) (domain.SearchResult, error) {
-	ret := _m.Called(_a0, _a1)
+// Search provides a mock function with given fields: ctx, query
+func (_m *FidiboSearcher) Search(ctx context.Context, query string) (domain.SearchResult, error) {
+	ret := _m.Called(ctx, query)
 
 	var r0 domain.SearchResult
 	var r1 error
 	if rf, ok := ret.Get(0).(func(context.Context, string) (domain.SearchResult, error)); ok {
-		return rf(_a0, _a1)
+		return rf(ctx, query)
 	}
 	if rf, ok := ret.Get(0).(func(context.Context, string) domain.SearchResult); ok {
-		r0 = rf(_a0, _a1)
+		r0 = rf(ctx, query)
 	} else {
 		r0 = ret.Get(0).(domain.SearchResult)
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
-		r1 = rf(_a0, _a1)
+		r1 = rf(ctx, query)
 	} else {
 		r1 = ret.Error(1)
 	}
