@@ -45,13 +45,13 @@ func TestMain(m *testing.M) {
 
 	fidiboClient := fidibosearch.NewFidiboSearcher(fidiboQueryKey, fidiboSearchURL)
 
-	loginSVC := service.NewLoginService(env.AccessTokenExpirationTime,
+	loginSVC := service.NewLoginService(env.AccessTokenExpiry,
 		env.AccessTokenSecret,
-		env.RefreshTokenExpirationTime,
+		env.RefreshTokenExpiry,
 		env.RefreshTokenSecret)
-	refreshTokenSVC := service.NewRefreshTokenService(env.AccessTokenExpirationTime,
+	refreshTokenSVC := service.NewRefreshTokenService(env.AccessTokenExpiry,
 		env.AccessTokenSecret,
-		env.RefreshTokenExpirationTime,
+		env.RefreshTokenExpiry,
 		env.RefreshTokenSecret)
 	searchSVC := service.NewSearchService(cache, fidiboClient)
 
@@ -102,7 +102,7 @@ func TestLogin(t *testing.T) {
 
 func TestRefreshToken(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
-		jwt, err := token.GenerateJWT("test", env.RefreshTokenSecret, env.RefreshTokenExpirationTime)
+		jwt, err := token.GenerateJWT("test", env.RefreshTokenSecret, env.RefreshTokenExpiry)
 		assert.NoError(t, err)
 
 		request := domain.RefreshTokenRequest{
@@ -184,7 +184,7 @@ func TestSearch(t *testing.T) {
 		defer redisClient.FlushAll(context.TODO())
 
 		query := "کافکا"
-		jwt, err := token.GenerateJWT("test", env.AccessTokenSecret, env.AccessTokenExpirationTime)
+		jwt, err := token.GenerateJWT("test", env.AccessTokenSecret, env.AccessTokenExpiry)
 		assert.NoError(t, err)
 
 		w := httptest.NewRecorder()
@@ -210,7 +210,7 @@ func TestSearch(t *testing.T) {
 		defer redisClient.FlushAll(context.TODO())
 
 		query := "کافکا"
-		jwt, err := token.GenerateJWT("test", env.AccessTokenSecret, env.AccessTokenExpirationTime)
+		jwt, err := token.GenerateJWT("test", env.AccessTokenSecret, env.AccessTokenExpiry)
 		assert.NoError(t, err)
 
 		w := httptest.NewRecorder()
@@ -254,7 +254,7 @@ func TestSearch(t *testing.T) {
 		defer redisClient.FlushAll(context.TODO())
 
 		query := ""
-		jwt, err := token.GenerateJWT("test", env.AccessTokenSecret, env.AccessTokenExpirationTime)
+		jwt, err := token.GenerateJWT("test", env.AccessTokenSecret, env.AccessTokenExpiry)
 		assert.NoError(t, err)
 
 		w := httptest.NewRecorder()
@@ -279,7 +279,7 @@ func TestSearch(t *testing.T) {
 	t.Run("success with no query", func(t *testing.T) {
 		defer redisClient.FlushAll(context.TODO())
 
-		jwt, err := token.GenerateJWT("test", env.AccessTokenSecret, env.AccessTokenExpirationTime)
+		jwt, err := token.GenerateJWT("test", env.AccessTokenSecret, env.AccessTokenExpiry)
 		assert.NoError(t, err)
 
 		w := httptest.NewRecorder()

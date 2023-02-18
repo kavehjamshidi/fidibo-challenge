@@ -6,31 +6,31 @@ import (
 )
 
 const (
-	serverAddressEnvKey              = "SERVER_ADDRESS"
-	redisAddressEnvKey               = "REDIS_ADDRESS"
-	testRedisAddressEnvKey           = "TEST_REDIS_ADDRESS"
-	accessTokenExpirationTimeEnvKey  = "ACCESS_EXPIRATION"
-	refreshTokenExpirationTimeEnvKey = "REFRESH_EXPIRATION"
-	accessTokenSecretEnvKey          = "ACCESS_SECRET"
-	refreshTokenSecretEnvKey         = "REFRESH_SECRET"
+	serverAddressEnvKey      = "SERVER_ADDRESS"
+	redisAddressEnvKey       = "REDIS_ADDRESS"
+	testRedisAddressEnvKey   = "TEST_REDIS_ADDRESS"
+	accessTokenExpiryEnvKey  = "ACCESS_EXPIRY"
+	refreshTokenExpiryEnvKey = "REFRESH_EXPIRY"
+	accessTokenSecretEnvKey  = "ACCESS_SECRET"
+	refreshTokenSecretEnvKey = "REFRESH_SECRET"
 
-	defaultServerAddress              = ":8080"
-	defaultRedisAddress               = "localhost:6379"
-	defaultTestRedisAddress           = "localhost:6379"
-	defaultAccessTokenExpirationTime  = "15m"
-	defaultRefreshTokenExpirationTime = "168h"
-	defaultAccessTokenSecret          = "access token secret"
-	defaultRefreshTokenSecret         = "refresh token secret"
+	defaultServerAddress      = ":8080"
+	defaultRedisAddress       = "localhost:6379"
+	defaultTestRedisAddress   = "localhost:6379"
+	defaultAccessTokenExpiry  = "15m"
+	defaultRefreshTokenExpiry = "168h"
+	defaultAccessTokenSecret  = "access token secret"
+	defaultRefreshTokenSecret = "refresh token secret"
 )
 
 type Env struct {
-	ServerAddress              string
-	RedisAddress               string
-	TestRedisAddress           string
-	AccessTokenExpirationTime  time.Duration
-	RefreshTokenExpirationTime time.Duration
-	AccessTokenSecret          string
-	RefreshTokenSecret         string
+	ServerAddress      string
+	RedisAddress       string
+	TestRedisAddress   string
+	AccessTokenExpiry  time.Duration
+	RefreshTokenExpiry time.Duration
+	AccessTokenSecret  string
+	RefreshTokenSecret string
 }
 
 func NewEnv() *Env {
@@ -40,25 +40,25 @@ func NewEnv() *Env {
 	accessTokenSecret := getEnvWithFallback(accessTokenSecretEnvKey, defaultAccessTokenSecret)
 	refreshTokenSecret := getEnvWithFallback(refreshTokenSecretEnvKey, defaultRefreshTokenSecret)
 
-	accessTokenExpirationTimeString := getEnvWithFallback(accessTokenExpirationTimeEnvKey, defaultAccessTokenExpirationTime)
-	accessTokenExpirationTime, err := time.ParseDuration(accessTokenExpirationTimeString)
+	accessTokenExpiryString := getEnvWithFallback(accessTokenExpiryEnvKey, defaultAccessTokenExpiry)
+	accessTokenExpiry, err := time.ParseDuration(accessTokenExpiryString)
 	if err != nil {
 		panic(err)
 	}
-	refreshTokenExpirationTimeString := getEnvWithFallback(refreshTokenExpirationTimeEnvKey, defaultRefreshTokenExpirationTime)
-	refreshTokenExpirationTime, err := time.ParseDuration(refreshTokenExpirationTimeString)
+	refreshTokenExpiryString := getEnvWithFallback(refreshTokenExpiryEnvKey, defaultRefreshTokenExpiry)
+	refreshTokenExpiry, err := time.ParseDuration(refreshTokenExpiryString)
 	if err != nil {
 		panic(err)
 	}
 
 	return &Env{
-		ServerAddress:              serverAddress,
-		RedisAddress:               redisAddress,
-		TestRedisAddress:           testRedisAddress,
-		AccessTokenExpirationTime:  accessTokenExpirationTime,
-		RefreshTokenExpirationTime: refreshTokenExpirationTime,
-		AccessTokenSecret:          accessTokenSecret,
-		RefreshTokenSecret:         refreshTokenSecret,
+		ServerAddress:      serverAddress,
+		RedisAddress:       redisAddress,
+		TestRedisAddress:   testRedisAddress,
+		AccessTokenExpiry:  accessTokenExpiry,
+		RefreshTokenExpiry: refreshTokenExpiry,
+		AccessTokenSecret:  accessTokenSecret,
+		RefreshTokenSecret: refreshTokenSecret,
 	}
 }
 
